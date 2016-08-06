@@ -1,0 +1,20 @@
+Gede
+----
+
+Gede was written by Johan Henriksson.
+Seé LICENSE file for license information.
+
+The icons used are from the NetBeans project and licensed under the
+terms of the NetBeans License Agreement.
+
+
+ctags
+=====
+
+Gede uses ctags.
+
+To install it on Debian:
+
+    # apt-get install exuberant-ctags
+
+
