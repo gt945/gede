@@ -432,6 +432,21 @@ void Core::gdbContinue()
 
 }
 
+void Core::excute(QString cmd)
+{
+    Com& com = Com::getInstance();
+    Tree resultData;
+
+    if(m_targetState == ICore::TARGET_RUNNING)
+    {
+        if(m_inf)
+            m_inf->ICore_onMessage("Program is currently running");
+        return;
+    }
+
+    com.commandF(&resultData, "-interpreter-exec console \"%s\" ", stringToCStr(cmd));
+}
+
 void Core::stop()
 {
 

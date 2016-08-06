@@ -123,7 +123,7 @@ public slots:
     void onCodeViewContextMenuToggleBreakpoint();
     void onCodeViewTab_tabCloseRequested ( int index );
     void onCodeViewTab_currentChanged( int tabIdx);
-    
+    void onCmd_returnPressed();
     
 private:
     Ui_MainWindow m_ui;

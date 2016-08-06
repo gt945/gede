@@ -66,6 +66,9 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QLineEdit" name="cmd"/>
+          </item>
          </layout>
         </widget>
         <widget class="QWidget" name="tab_5">

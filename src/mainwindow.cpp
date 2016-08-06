@@ -148,7 +148,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(m_ui.editorTabWidget, SIGNAL(tabCloseRequested(int)), SLOT(onCodeViewTab_tabCloseRequested(int)));
     connect(m_ui.editorTabWidget, SIGNAL(currentChanged(int)), SLOT(onCodeViewTab_currentChanged(int)));
-    
+    connect(m_ui.cmd, SIGNAL(returnPressed()),SLOT(onCmd_returnPressed()));
     statusBar()->addPermanentWidget(&m_statusLineWidget);
 }
 
@@ -570,6 +570,12 @@ CodeViewTab* MainWindow::currentTab()
 void MainWindow::onCodeViewTab_currentChanged( int tabIdx)
 {
     Q_UNUSED(tabIdx);
+}
+
+void MainWindow::onCmd_returnPressed()
+{
+    Core &core = Core::getInstance();
+    core.excute(m_ui.cmd->text());
 }
 
 

@@ -209,6 +209,7 @@ public:
     QVector <SourceFile*> getSourceFiles() { return m_sourceFiles; };
 
 
+    void excute(QString cmd);
 private slots:
         void onGdbOutput(int socketNr);
 
