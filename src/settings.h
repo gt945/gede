@@ -75,7 +75,8 @@ class Settings
 
         bool m_reloadBreakpoints;
         QString m_initialBreakpoint;
-        
+        bool m_attachMode;
+
         QList<SettingsBreakpoint> m_breakpoints;
 };
 

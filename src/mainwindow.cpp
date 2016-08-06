@@ -1322,7 +1322,7 @@ void MainWindow::ICore_onStateChanged(TargetState state)
     m_ui.actionStep_Out->setEnabled(state == TARGET_STOPPED ? true : false);
     m_ui.actionStop->setEnabled(state == TARGET_STOPPED ? false : true);
     m_ui.actionContinue->setEnabled(state == TARGET_STOPPED ? true : false);
-    m_ui.actionRun->setEnabled(state == TARGET_STOPPED ? true : false);
+    m_ui.actionRun->setEnabled((state == TARGET_STOPPED &&  m_cfg.m_attachMode == false) ? true : false);
 
     m_ui.varWidget->setEnabled(state == TARGET_STOPPED ? true : false);
 

@@ -98,6 +98,7 @@ void Settings::loadProjectConfig()
 
     m_initialBreakpoint = tmpIni.getString("InitialBreakpoint","main");
     
+    m_attachMode = tmpIni.getBool("AttachMode", false);
 
     //
     QStringList breakpointStringList;
@@ -152,6 +153,7 @@ void Settings::saveProjectConfig()
 
     tmpIni.setString("InitialBreakpoint",m_initialBreakpoint);
     
+    tmpIni.setBool("AttachMode", m_attachMode);
     //
     QStringList breakpointStringList;
     for(int i = 0;i < m_breakpoints.size();i++)

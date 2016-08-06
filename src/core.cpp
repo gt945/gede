@@ -230,19 +230,25 @@ int Core::initRemote(Settings *cfg, QString gdbPath, QString programPath, QStrin
 
     }
 
-    if(!programPath.isEmpty())
-    {
-      com.commandF(&resultData, "-file-exec-file %s", stringToCStr(programPath));
+    if (!cfg->m_attachMode) {
+        if(!programPath.isEmpty())
+        {
+            com.commandF(&resultData, "-file-exec-file %s", stringToCStr(programPath));
 
-        com.commandF(&resultData, "-target-download");
+            com.commandF(&resultData, "-target-download");
+        }
+
     }
-    
 
     gdbSetBreakpointAtFunc(cfg->m_initialBreakpoint);
-    
+
     gdbGetFiles();
 
-    gdbRun();
+    if (cfg->m_attachMode) {
+        gdbContinue();
+    } else {
+        gdbRun();
+    }
 
     return 0;
 }

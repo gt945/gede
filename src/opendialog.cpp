@@ -209,7 +209,12 @@ void OpenDialog::saveConfig(Settings *cfg)
         cfg->m_reloadBreakpoints = true;
     else
         cfg->m_reloadBreakpoints = false;
-    
+
+
+    if(dlg.m_ui.checkBox_attachMode->checkState() == Qt::Checked)
+        cfg->m_attachMode = true;
+    else
+        cfg->m_attachMode = false;
     
 
 }
@@ -231,7 +236,7 @@ void OpenDialog::loadConfig(Settings &cfg)
     QStringList defList;
     dlg.setArguments(cfg.m_argumentList.join(" "));
     dlg.setInitialBreakpoint(cfg.m_initialBreakpoint);
-
+    dlg.m_ui.checkBox_attachMode->setChecked(cfg.m_attachMode);
 }
 
 
