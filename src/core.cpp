@@ -846,6 +846,23 @@ void Core::gdbRemoveBreakpoint(BreakPoint* bkpt)
     
 }
 
+void Core::gdbEnableBreakpoint(BreakPoint *bkpt, bool enabled)
+{
+    Com& com = Com::getInstance();
+    Tree resultData;
+
+    assert(bkpt != NULL);
+
+    if (enabled) {
+        com.commandF(&resultData, "-break-enable %d", bkpt->m_number);
+    } else {
+        com.commandF(&resultData, "-break-disable %d", bkpt->m_number);
+    }
+
+    if(m_inf)
+        m_inf->ICore_onBreakpointsChanged();
+}
+
 void Core::gdbGetThreadList()
 {
     Com& com = Com::getInstance();
@@ -914,7 +931,7 @@ void Core::dispatchBreakpointTree(Tree &tree)
     bkpt->fullname = tree.getString("bkpt/fullname");
     bkpt->m_funcName = tree.getString("bkpt/func");
     bkpt->m_addr = tree.getLongLong("bkpt/addr");
-
+    bkpt->enabled = (tree.getString("bkpt/enabled") == "y");
     if(m_inf)
         m_inf->ICore_onBreakpointsChanged();
 

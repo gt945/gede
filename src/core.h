@@ -56,6 +56,7 @@ public:
     int lineNo;
     QString m_funcName;
     unsigned long long m_addr;
+    bool enabled;
     
 private:
     BreakPoint(){};
@@ -202,6 +203,7 @@ public:
     BreakPoint* findBreakPoint(QString fullPath, int lineNo);
     BreakPoint* findBreakPointByNumber(int number);
     void gdbRemoveBreakpoint(BreakPoint* bkpt);
+    void gdbEnableBreakpoint(BreakPoint* bkpt, bool enabled);
 
     QList<ThreadInfo> getThreadList();
     

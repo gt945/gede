@@ -43,12 +43,15 @@ MainWindow::MainWindow(QWidget *parent)
     m_ui.treeWidget_breakpoints->setColumnCount(2);
     m_ui.treeWidget_breakpoints->setColumnWidth(0, 80);
     names.clear();
+    names += "ID";
     names += "Filename";
     names += "Func";
     names += "Line";
     names += "Addr";
+    names += "Enabled";
     m_ui.treeWidget_breakpoints->setHeaderLabels(names);
     connect(m_ui.treeWidget_breakpoints, SIGNAL(itemDoubleClicked ( QTreeWidgetItem * , int  )), this, SLOT(onBreakpointsWidgetItemDoubleClicked(QTreeWidgetItem * ,int)));
+    connect(m_ui.treeWidget_breakpoints, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(onBreakpointsEnableDisable(QTreeWidgetItem*,int)));
 
 
 
@@ -578,6 +581,18 @@ void MainWindow::onCmd_returnPressed()
     core.excute(m_ui.cmd->text());
 }
 
+void MainWindow::onBreakpointsEnableDisable(QTreeWidgetItem *item, int column)
+{
+    if (column == 5) {
+        Core &core = Core::getInstance();
+        QList<BreakPoint*>  bklist = core.getBreakPoints();
+        int i = item->data(0, Qt::UserRole).toInt();
+        BreakPoint* bk = bklist[i];
+        bk->enabled = !bk->enabled;
+        core.gdbEnableBreakpoint(bk, bk->enabled);
+    }
+}
+
 
 void MainWindow::onCodeViewTab_tabCloseRequested ( int tabIdx)
 {
@@ -835,17 +850,22 @@ void MainWindow::ICore_onBreakpointsChanged()
 
         QStringList nameList;
         QString name;
+        nameList.append(QString::number(bk->m_number));
         nameList.append(getFilenamePart(bk->fullname));
         nameList.append(bk->m_funcName);
         name.sprintf("%d", bk->lineNo);
         nameList.append(name);
         nameList.append(longLongToHexString(bk->m_addr));
         
-        
 
         QTreeWidgetItem *item = new QTreeWidgetItem(nameList);
         item->setData(0, Qt::UserRole, i);
         item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+        if (bk->enabled) {
+            item->setCheckState(5, Qt::Checked);
+        } else {
+            item->setCheckState(5, Qt::Unchecked);
+        }
 
         // Add the item to the widget
         m_ui.treeWidget_breakpoints->insertTopLevelItem(0, item);
